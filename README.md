@@ -555,7 +555,7 @@ public static void main(String[] args)
 </details>
 
 <details>
-  <summary>Map each character of "hello world" to its uppercase version?</summary>
+  <summary>Map each character of "hello world" to its uppercase version</summary>
 
 ```java
   public static void main(String[] args)
@@ -572,6 +572,21 @@ public static void main(String[] args)
 
       System.out.println(map);
   }
+```
+
+</details>
+
+<details>
+  <summary>Calculate the average length of each word in the string</summary>
+
+```java
+    public static void main(String[] args)
+    {
+        String str = "the quick brown fox jumps over the lazy dog";
+
+        System.out.println(Stream.of(str.split("\\s+"))
+                .collect(Collectors.averagingInt(String::length)));
+    }
 ```
 
 </details>
