@@ -592,3 +592,281 @@ public static void main(String[] args)
 </details>
 
 ## Integer Questions
+
+<details>
+  <summary>Find the count/sum/average/minimum/maximum of integers</summary>
+
+### solution-1
+
+```java
+public static void main(String[] args) {
+    int[] arr = {1, 2, 3, 4, 5, 6, 7, 8, 9};
+
+    long count = Arrays.stream(arr).count();
+    int sum = Arrays.stream(arr).sum();
+    double average = Arrays.stream(arr).average().orElseThrow();
+    int max = Arrays.stream(arr).max().orElseThrow();
+    int min = Arrays.stream(arr).min().orElseThrow();
+
+    System.out.println(count);
+    System.out.println(sum);
+    System.out.println(average);
+    System.out.println(max);
+    System.out.println(min);
+}
+```
+
+### solution-2
+
+```java
+public static void main(String[] args) {
+    int[] arr = {1, 2, 3, 4, 5, 6, 7, 8, 9};
+
+    long count = IntStream.of(arr).count();
+    int sum = IntStream.of(arr).sum();
+    double average = IntStream.of(arr).average().orElseThrow();
+    int max = IntStream.of(arr).max().orElseThrow();
+    int min = IntStream.of(arr).min().orElseThrow();
+
+    System.out.println(count);
+    System.out.println(sum);
+    System.out.println(average);
+    System.out.println(max);
+    System.out.println(min);
+}
+```
+
+</details>
+
+<details>
+  <summary>Filter out even/odd numbers from the array</summary>
+
+```java
+public static void main(String[] args) {
+    int[] arr = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+
+    int[] even = Arrays.stream(arr)
+            .filter(val -> val % 2 == 0)
+            .toArray();
+
+    int[] odd = Arrays.stream(arr)
+            .filter(val -> val % 2 != 0)
+            .toArray();
+
+    System.out.println(Arrays.toString(even));
+    System.out.println(Arrays.toString(odd));
+}
+```
+</details>
+
+<details>
+  <summary>Create a new array with the square of each element</summary>
+
+```java
+public static void main(String[] args) 
+    {
+        int[] arr = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+    
+        int[] squareArr = Arrays.stream(arr)
+                .map(val -> val * val)
+                .toArray();
+    
+        System.out.println(Arrays.toString(squareArr));
+    }
+```
+</details>
+
+<details>
+  <summary>Filter elements greater than a specific value (e.g., greater than 5)</summary>
+
+```java
+public static void main(String[] args) {
+    int[] arr = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+    
+    int[] filteredArr = Arrays.stream(arr)
+            .filter(val -> val > 5)
+            .toArray();
+    
+    System.out.println(Arrays.toString(filteredArr));
+}
+```
+</details>
+
+<details>
+  <summary>Find the product of all elements in the array</summary>
+
+```java
+public static void main(String[] args) 
+{
+    int[] arr = {1, 2, 3, 4, 5, 6, 7, 8, 9};
+
+    int product = Arrays.stream(arr)
+            .reduce((left, right) -> left * right)
+            .orElseThrow();
+
+    System.out.println(product);
+}
+```
+</details>
+
+<details>
+  <summary>Sort the array in ascending order</summary>
+
+```java
+public static void main(String[] args) 
+{
+    int[] arr = {2, 9, 4, 3, 6, 8, 1, 7};
+
+    int[] sortedArr = Arrays.stream(arr)
+            .sorted().toArray();
+
+    System.out.println(Arrays.toString(sortedArr));
+}
+```
+</details>
+
+<details>
+  <summary>Sort the array in descending order</summary>
+
+```java
+public static void main(String[] args) 
+{
+    int[] arr = {2, 9, 4, 3, 6, 8, 1, 7};
+
+    Integer[] sortedArr = Arrays.stream(arr)
+            .boxed()
+            .sorted(Comparator.reverseOrder())
+            .toArray(Integer[]::new);
+
+    System.out.println(Arrays.toString(sortedArr));
+}
+```
+</details>
+
+<details>
+  <summary>Get all the elements in the array that are unique (remove duplicates)</summary>
+
+```java
+public static void main(String[] args) 
+{
+    int[] arr = {2, 9, 2, 3, 3, 8, 1, 7};
+
+    int[] sortedArr = Arrays.stream(arr)
+            .distinct()
+            .toArray();
+
+    System.out.println(Arrays.toString(sortedArr));
+}
+```
+</details>
+
+<details>
+  <summary>Array of duplicate elements</summary>
+
+### solution-1
+```java
+public static void main(String[] args) 
+{
+    int[] arr = {9, 9, 2, 3, 3, 8, 1, 2};
+
+    int[] duplArr = Arrays.stream(arr)
+            .boxed()
+            .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()))
+            .entrySet().stream()
+            .filter(entry -> entry.getValue() > 1)
+            .mapToInt(Map.Entry::getKey)
+            .toArray();
+
+    System.out.println(Arrays.toString(duplArr));
+}
+```
+
+### solution-2
+```java
+public static void main(String[] args) 
+{
+    int[] arr = {9, 9, 2, 3, 3, 8, 1, 2};
+
+    Set<Integer> set = new HashSet<>();
+
+    int[] duplArr = Arrays.stream(arr)
+            .filter(val -> !set.add(val))
+            .toArray();
+
+    System.out.println(Arrays.toString(duplArr));
+}
+```
+</details>
+
+<details>
+  <summary>Partition the array into two lists: one with even numbers and another with odd numbers</summary>
+
+```java
+public static void main(String[] args) 
+{
+    int[] arr = {0, 1, 2, 3, 4, 5, 6, 7};
+
+    Map<Boolean, List<Integer>> evenAndOdd = Arrays.stream(arr)
+            .boxed()
+            .collect(Collectors.partitioningBy(val -> val % 2 == 0));
+
+    List<Integer> evenLists = evenAndOdd.get(true);
+    List<Integer> oddLists = evenAndOdd.get(false);
+
+    System.out.println(evenLists);
+    System.out.println(oddLists);
+}
+```
+</details>
+
+<details>
+  <summary>Group elements by their remainder when divided by 3?</summary>
+
+```java
+public static void main(String[] args) {
+    int[] arr = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+
+    Map<Integer, List<Integer>> map = Arrays.stream(arr)
+            .boxed()
+            .collect(Collectors.groupingBy(val -> val % 3));
+
+    System.out.println(map);
+}
+```
+</details>
+
+<details>
+  <summary>Group each element with their remainder when divided by 3?</summary>
+
+```java
+public static void main(String[] args) 
+{
+    int[] arr = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+
+    Map<Integer, Integer> map = Arrays.stream(arr)
+            .boxed()
+            .collect(Collectors.toMap(Function.identity(), val -> val % 3));
+
+    System.out.println(map);
+}
+```
+</details>
+
+<details>
+  <summary>Calculate sum of numeric values in a string</summary>
+
+```java
+public static void main(String[] args) 
+{
+    String str = "38457";
+
+    int sum = str
+            .chars()
+            .mapToObj(Character::getNumericValue)
+            .mapToInt(Integer::intValue).sum();
+
+    System.out.println(sum);
+}
+```
+</details>
+
